@@ -4,16 +4,7 @@ import { v4 as uuid } from "uuid";
 
 const slice = createSlice({
     name: "cards",
-    initialState: [ {
-        id: '1',
-        title: 'Nueva lista',
-        items: []
-      },
-      {
-        id: '2',
-        title: 'Nueva lista',
-        items: []
-      }],
+    initialState: [],
     reducers:{
         cardAdded: (cards, action)=>{
             cards.push({
@@ -24,13 +15,22 @@ const slice = createSlice({
         },
         cardTitleChanged: (cards, action)=>{
            const index = cards.findIndex(card => card.id === action.payload.id);
-           console.log("card",cards[index]);
            cards[index].title = action.payload.title;
+        },
+        itemAdded: (cards, action)=>{
+            const index = cards.findIndex(card => card.id === action.payload);
+            cards[index].items.push(
+                {id: uuid(),
+                title:"Nueva tarjeta",
+                cardId: action.payload,
+                description: "Añada una descripción más detallada...",
+            }
+            )
         }
     }
 })
 
-export const {cardAdded, cardTitleChanged} = slice.actions;
+export const {cardAdded, cardTitleChanged, itemAdded} = slice.actions;
 export default slice.reducer;
 
 

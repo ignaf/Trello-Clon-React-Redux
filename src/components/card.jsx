@@ -1,4 +1,7 @@
 import React from "react";
+import { useDispatch } from "react-redux";
+import { itemAdded } from "../store/cards";
+
 import { Draggable } from "@hello-pangea/dnd";
 import CardItem from "./cardItem";
 import CardHeader from "./cardHeader";
@@ -6,13 +9,14 @@ import CardHeader from "./cardHeader";
 export default function Card(props) {
   const {
     card,
-    onAddItem,
     onReorder,
     onDelete,
     onTextChange,
     onDescChange,
     ...droppableProvided
   } = props;
+
+  const dispatch = useDispatch();
 
   return (
     <div className="card">
@@ -40,7 +44,7 @@ export default function Card(props) {
           ))}
         </ul>
         <button
-          onClick={() => onAddItem(card)}
+          onClick={() => dispatch(itemAdded(card.id))}
           type="button"
           className="btn__add-item"
         >

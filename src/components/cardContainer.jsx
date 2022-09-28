@@ -3,7 +3,7 @@ import Card from "./card";
 import { v4 as uuid } from "uuid";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import { connect } from "react-redux";
-import { cardAdded } from "../store/cards";
+import { cardAdded, itemAdded } from "../store/cards";
 
 const reorder = (list, startIndex, endIndex) => {
   const result = [...list];
@@ -19,28 +19,7 @@ class CardContainer extends Component {
 
   constructor(props) {
     super(props);
-    console.log(this.props.cards);
   }
-
-  handleAddCard = () => {
-    const currentCards = [...this.state.cards];
-    const newCard = { id: uuid(), title: "Nueva lista", items: [] };
-    const cards = [...currentCards, newCard];
-    this.setState({ cards });
-  };
-
-  handleAddItem = (card) => {
-    const cardToUpdate = this.findCard(card);
-    const newItem = {
-      id: uuid(),
-      title: "Nueva tarjeta",
-      cardId: card.id,
-      description: "Añada una descripción más detallada...",
-    };
-    const items = [...cardToUpdate.items, newItem];
-    cardToUpdate.items = items;
-    this.updateCard(cardToUpdate, this.findCardIndex(card));
-  };
 
   handleTextChange = (e, card, item = null) => {
     const cardToUpdate = this.findCard(card);
@@ -178,7 +157,6 @@ class CardContainer extends Component {
                               <Card
                                 key={card.id}
                                 card={card}
-                                onAddItem={this.handleAddItem}
                                 onTextChange={this.handleTextChange}
                                 onDescChange={this.handleDescChange}
                                 onDelete={this.handleDelete}
@@ -200,7 +178,7 @@ class CardContainer extends Component {
           </DragDropContext>
           <div>
             <button
-              onClick={this.handleAddCard}
+              onClick={() => this.props.addCard()}
               className="btn__add-card"
               id="add-card"
               type="button"
@@ -208,7 +186,6 @@ class CardContainer extends Component {
               <i className="bi bi-plus"></i>
               Añada otra lista
             </button>
-            <button onClick={() => this.props.addCard()}>Redux Add</button>
           </div>
         </div>
       </div>
@@ -222,6 +199,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   addCard: () => dispatch(cardAdded()),
+  addItem: (id) => dispatch(itemAdded(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CardContainer);
