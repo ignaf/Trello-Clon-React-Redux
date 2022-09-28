@@ -18,14 +18,17 @@ const slice = createSlice({
            cards[index].title = action.payload.title;
         },
         itemAdded: (cards, action)=>{
-            const index = cards.findIndex(card => card.id === action.payload);
+            const index = cards.findIndex(card => card.id === action.payload.id);
             cards[index].items.push(
                 {id: uuid(),
                 title:"Nueva tarjeta",
-                cardId: action.payload,
+                cardId: action.payload.id,
                 description: "Añada una descripción más detallada...",
             }
             )
+        },
+        itemTitleChanged: (cards, action)=>{
+            
         }
     }
 })
