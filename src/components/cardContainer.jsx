@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import Card from "./card";
 import { v4 as uuid } from "uuid";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
+import { connect } from "react-redux";
+import { cardAdded } from "../store/cards";
 
 const reorder = (list, startIndex, endIndex) => {
   const result = [...list];
@@ -15,9 +17,14 @@ class CardContainer extends Component {
     cards: [],
   };
 
+  constructor(props) {
+    super(props);
+    console.log(this.props.cards);
+  }
+
   handleAddCard = () => {
     const currentCards = [...this.state.cards];
-    const newCard = { id: uuid() + 1, title: "Nueva lista", items: [] };
+    const newCard = { id: uuid(), title: "Nueva lista", items: [] };
     const cards = [...currentCards, newCard];
     this.setState({ cards });
   };
@@ -150,7 +157,7 @@ class CardContainer extends Component {
                   {...droppableProvided.droppableProps}
                   ref={droppableProvided.innerRef}
                 >
-                  {this.state.cards.map((card, index) => (
+                  {this.props.cards.map((card, index) => (
                     <Draggable
                       key={card.id}
                       draggableId={card.id}
@@ -201,6 +208,7 @@ class CardContainer extends Component {
               <i className="bi bi-plus"></i>
               Añada otra lista
             </button>
+            <button onClick={() => this.props.addCard()}>Redux Add</button>
           </div>
         </div>
       </div>
@@ -208,4 +216,12 @@ class CardContainer extends Component {
   }
 }
 
-export default CardContainer;
+const mapStateToProps = (state) => ({
+  cards: state.cards,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  addCard: () => dispatch(cardAdded()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(CardContainer);
