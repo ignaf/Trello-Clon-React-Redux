@@ -28,12 +28,14 @@ const slice = createSlice({
             )
         },
         itemTitleChanged: (cards, action)=>{
-            
+            const indexCard = cards.findIndex(card => card.id === action.payload.cardId);
+            const indexItem = cards[indexCard].items.findIndex(item => item.id === action.payload.itemId);
+            cards[indexCard].items[indexItem].title=action.payload.title;
         }
     }
 })
 
-export const {cardAdded, cardTitleChanged, itemAdded} = slice.actions;
+export const {cardAdded, cardTitleChanged, itemAdded, itemTitleChanged} = slice.actions;
 export default slice.reducer;
 
 

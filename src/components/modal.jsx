@@ -1,5 +1,7 @@
 import React from "react";
 import ReactDom from "react-dom";
+import { useDispatch } from "react-redux";
+import { itemTitleChanged } from "../store/cards";
 import { EditText } from "react-edit-text";
 
 const MODAL_STYLES = {
@@ -29,9 +31,9 @@ export default function Modal({
   onClose,
   item,
   card,
-  onTextChange,
   onDescChange,
 }) {
+  const dispatch = useDispatch();
   if (!open) return null;
 
   return ReactDom.createPortal(
@@ -41,7 +43,17 @@ export default function Modal({
         <div>
           <div className="modal__title">
             <i className="bi bi-credit-card-2-front-fill"></i>
-            <h3 onChange={(e) => onTextChange(e, card, item)}>
+            <h3
+              onChange={(e) =>
+                dispatch(
+                  itemTitleChanged({
+                    title: e.target.value,
+                    itemId: item.id,
+                    cardId: item.cardId,
+                  })
+                )
+              }
+            >
               <EditText defaultValue={item.title} />
             </h3>
           </div>

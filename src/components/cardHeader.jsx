@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { EditText } from "react-edit-text";
 import { cardTitleChanged } from "../store/cards";
+import { EditText } from "react-edit-text";
 
 import "react-edit-text/dist/index.css";
 

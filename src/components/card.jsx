@@ -6,14 +6,8 @@ import CardItem from "./cardItem";
 import CardHeader from "./cardHeader";
 
 export default function Card(props) {
-  const {
-    card,
-    onReorder,
-    onDelete,
-    onTextChange,
-    onDescChange,
-    ...droppableProvided
-  } = props;
+  const { card, onReorder, onDelete, onDescChange, ...droppableProvided } =
+    props;
 
   const dispatch = useDispatch();
 
@@ -34,7 +28,6 @@ export default function Card(props) {
                   innerRef={draggableProvided.innerRef}
                   item={item}
                   card={card}
-                  onTextChange={onTextChange}
                   onDescChange={onDescChange}
                   onDelete={onDelete}
                 />

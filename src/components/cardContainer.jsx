@@ -157,7 +157,6 @@ class CardContainer extends Component {
                               <Card
                                 key={card.id}
                                 card={card}
-                                onTextChange={this.handleTextChange}
                                 onDescChange={this.handleDescChange}
                                 onDelete={this.handleDelete}
                                 onReorder={this.handleReorder}

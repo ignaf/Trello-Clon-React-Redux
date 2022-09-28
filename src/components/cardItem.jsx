@@ -1,17 +1,12 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { itemTitleChanged } from "../store/cards";
 import { EditText } from "react-edit-text";
 import Modal from "./modal";
 
-function CardItem({
-  provided,
-  innerRef,
-  onTextChange,
-  onDescChange,
-  onDelete,
-  item,
-  card,
-}) {
+function CardItem({ provided, innerRef, onDescChange, onDelete, item, card }) {
   const [isOpen, setIsOpen] = useState(false);
+  const dispatch = useDispatch();
 
   return (
     <div>
@@ -21,10 +16,19 @@ function CardItem({
         ref={innerRef}
         className="drag"
       >
-        <EditText
-          defaultValue={item.title}
-          onChange={(e) => onTextChange(e, card, item)}
-        />
+        <span
+          onChange={(e) =>
+            dispatch(
+              itemTitleChanged({
+                title: e.target.value,
+                itemId: item.id,
+                cardId: item.cardId,
+              })
+            )
+          }
+        >
+          <EditText defaultValue={item.title} />
+        </span>
 
         <i className="bi bi-pen" onClick={() => setIsOpen(true)}></i>
         <Modal
@@ -32,7 +36,6 @@ function CardItem({
           onClose={() => setIsOpen(false)}
           item={item}
           card={card}
-          onTextChange={onTextChange}
           onDescChange={onDescChange}
           onChange={(e) => onDescChange(e, card, item)}
         >
