@@ -43,51 +43,48 @@ const slice = createSlice({
             const indexItem = cards[indexCard].items.findIndex(item => item.id === action.payload.itemId);
             cards[indexCard].items[indexItem].description=action.payload.description;
         },
-        reorderx: (cards, action) =>{
+        draggablesReordered: (cards, action) =>{
             const {source, destination, draggableId, type} = action.payload;
             if(!destination){
                 return;
             }
+
             if(type=="columns"){
                 const reorderedCards = reorder(cards, source.index, destination.index);
                 return cards = reorderedCards;
             }
+
             if(type=="items"){
-                console.log("items")
-
-                const sourceCard = getCardsById(source.droppableId);
-                const destCard = getCardsById(destination.droppableId);
-                const indexSameCard = cards.findIndex(card => card.id === source.droppableId);
-
-
+                const indexSourceCard = cards.findIndex(card => card.id === source.droppableId);
+                const indexDestCard = cards.findIndex(card => card.id === destination.droppableId);
+                const indexItem = cards[indexSourceCard].items.findIndex(item=>item.id == draggableId);
                 if(source.droppableId !== destination.droppableId){
-                    // const prevSourceItems = [...sourceCard[0].items];
-                    // const movingItem = prevSourceItems.filter(i=>i.id == draggableId);
-                    // const prevDestItems = [...destCard[0].items];
-                    // const sourceItems = prevSourceItems.filter(i=>i.id!==draggableId);
-                    // const destItems = prevDestItems.concat(movingItem);
-                    // return;
-                    console.log("drop in different card");
-                    return;
+                    const prevSourceItems = [...cards[indexSourceCard].items];                     
+                    const movingItem = cards[indexSourceCard].items[indexItem];
+                    const prevDestItems = [...cards[indexDestCard].items];
+                    const sourceItems = prevSourceItems.filter(i=>i.id!==draggableId);
+                    const destItems = prevDestItems.concat(movingItem);
 
+                    cards[indexSourceCard].items = [...sourceItems];
+                    cards[indexDestCard].items = [...destItems];
+                    return;
                 }
                 if(source.index === destination.index && source.droppableId === destination.droppableId){
                     return;
                 }else{
                     const reorderedItems = reorder(
-                        cards[indexSameCard].items,
+                        cards[indexSourceCard].items,
                         source.index,
                         destination.index
                     );
-                    cards[indexSameCard].items = [...reorderedItems];
+                    cards[indexSourceCard].items = [...reorderedItems];
                 }
             }
-
         }
     }
 })
 
-export const {cardAdded, cardTitleChanged, itemAdded, itemDeleted, itemTitleChanged, itemDescChanged, reorderx} = slice.actions;
+export const {cardAdded, cardTitleChanged, itemAdded, itemDeleted, itemTitleChanged, itemDescChanged, draggablesReordered} = slice.actions;
 export default slice.reducer;
 
 
