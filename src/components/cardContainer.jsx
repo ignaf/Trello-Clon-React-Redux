@@ -21,30 +21,6 @@ class CardContainer extends Component {
     super(props);
   }
 
-  handleTextChange = (e, card, item = null) => {
-    const cardToUpdate = this.findCard(card);
-    if (!item) {
-      cardToUpdate.title = e.target.value;
-    } else {
-      const itemIndex = cardToUpdate.items.indexOf(item);
-      const items = { ...cardToUpdate.items };
-      const itemToUpdate = items[itemIndex];
-      itemToUpdate.title = e.target.value;
-      items[itemIndex] = itemToUpdate;
-    }
-    this.updateCard(cardToUpdate, this.findCardIndex(card));
-  };
-  handleDescChange = (e, card, item) => {
-    const cardToUpdate = this.findCard(card);
-    const itemIndex = cardToUpdate.items.indexOf(item);
-    const items = { ...cardToUpdate.items };
-    const itemToUpdate = items[itemIndex];
-    itemToUpdate.description = e.target.value;
-    items[itemIndex] = itemToUpdate;
-    this.updateCard(cardToUpdate, this.findCardIndex(card));
-    console.log("descchang");
-  };
-
   handleReorder = (result) => {
     const { source, destination, draggableId, type } = result;
 
@@ -91,14 +67,6 @@ class CardContainer extends Component {
       const cards = reorder(currentCards, source.index, destination.index);
       this.setState({ cards });
     }
-  };
-
-  handleDelete = (card, item) => {
-    const cardToUpdate = this.findCard(card);
-    const prevItems = cardToUpdate.items;
-    const items = prevItems.filter((i) => i.id !== item.id);
-    cardToUpdate.items = items;
-    this.updateCard(cardToUpdate, this.findCardIndex(card));
   };
 
   findCardIndex = (card) => {
@@ -157,8 +125,6 @@ class CardContainer extends Component {
                               <Card
                                 key={card.id}
                                 card={card}
-                                onDescChange={this.handleDescChange}
-                                onDelete={this.handleDelete}
                                 onReorder={this.handleReorder}
                                 {...droppableProvided}
                               ></Card>

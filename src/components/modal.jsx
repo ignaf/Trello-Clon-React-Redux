@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDom from "react-dom";
 import { useDispatch } from "react-redux";
-import { itemTitleChanged } from "../store/cards";
+import { itemTitleChanged, itemDescChanged } from "../store/cards";
 import { EditText } from "react-edit-text";
 
 const MODAL_STYLES = {
@@ -25,14 +25,7 @@ const OVERLAY_STYLES = {
   zIndex: 1000,
 };
 
-export default function Modal({
-  open,
-  children,
-  onClose,
-  item,
-  card,
-  onDescChange,
-}) {
+export default function Modal({ open, children, onClose, item, card }) {
   const dispatch = useDispatch();
   if (!open) return null;
 
@@ -60,7 +53,17 @@ export default function Modal({
           <p>
             en la lista <u>{card.title}</u>
           </p>
-          <div onChange={(e) => onDescChange(e, card, item)}>
+          <div
+            onChange={(e) =>
+              dispatch(
+                itemDescChanged({
+                  description: e.target.value,
+                  itemId: item.id,
+                  cardId: item.cardId,
+                })
+              )
+            }
+          >
             <div className="modal__desc-title">
               <i className="bi bi-justify-left"></i>
               <h4>Descripción</h4>

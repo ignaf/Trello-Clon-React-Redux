@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { itemTitleChanged } from "../store/cards";
+import { itemDeleted, itemTitleChanged } from "../store/cards";
 import { EditText } from "react-edit-text";
 import Modal from "./modal";
 
-function CardItem({ provided, innerRef, onDescChange, onDelete, item, card }) {
+function CardItem({ provided, innerRef, onDescChange, item, card }) {
   const [isOpen, setIsOpen] = useState(false);
   const dispatch = useDispatch();
 
@@ -36,11 +36,11 @@ function CardItem({ provided, innerRef, onDescChange, onDelete, item, card }) {
           onClose={() => setIsOpen(false)}
           item={item}
           card={card}
-          onDescChange={onDescChange}
-          onChange={(e) => onDescChange(e, card, item)}
         >
           <button
-            onClick={() => onDelete(card, item)}
+            onClick={() =>
+              dispatch(itemDeleted({ itemId: item.id, cardId: card.id }))
+            }
             className="modal__eliminar"
           >
             Eliminar tarjeta

@@ -27,15 +27,26 @@ const slice = createSlice({
             }
             )
         },
+        itemDeleted:(cards,action)=>{
+            const indexCard = cards.findIndex(card => card.id === action.payload.cardId);
+            let items = cards[indexCard].items
+            const indexItem = items.findIndex(item => item.id === action.payload.itemId);  
+            cards[indexCard].items = [...items.slice(0, indexItem), ...items.slice(indexItem+1)]
+        },
         itemTitleChanged: (cards, action)=>{
             const indexCard = cards.findIndex(card => card.id === action.payload.cardId);
             const indexItem = cards[indexCard].items.findIndex(item => item.id === action.payload.itemId);
             cards[indexCard].items[indexItem].title=action.payload.title;
+        },
+        itemDescChanged: (cards, action)=>{
+            const indexCard = cards.findIndex(card => card.id === action.payload.cardId);
+            const indexItem = cards[indexCard].items.findIndex(item => item.id === action.payload.itemId);
+            cards[indexCard].items[indexItem].description=action.payload.description;
         }
     }
 })
 
-export const {cardAdded, cardTitleChanged, itemAdded, itemTitleChanged} = slice.actions;
+export const {cardAdded, cardTitleChanged, itemAdded, itemDeleted, itemTitleChanged, itemDescChanged} = slice.actions;
 export default slice.reducer;
 
 
