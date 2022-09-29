@@ -84,19 +84,12 @@ const slice = createSlice({
     }
 })
 
-export const {cardAdded, cardTitleChanged, itemAdded, itemDeleted, itemTitleChanged, itemDescChanged, draggablesReordered} = slice.actions;
-export default slice.reducer;
-
-
-//selectores
-export const getCardsById= id => createSelector(
-    state => state.cards,
-    cards => cards.filter(card=>card.id === id)
-);
-
 const reorder = (list, startIndex, endIndex) => {
     const result = [...list];
     const [removed] = result.splice(startIndex, 1);
     result.splice(endIndex, 0, removed);
     return result;
-  };
+};
+
+export const {cardAdded, cardTitleChanged, itemAdded, itemDeleted, itemTitleChanged, itemDescChanged, draggablesReordered} = slice.actions;
+export default slice.reducer;
