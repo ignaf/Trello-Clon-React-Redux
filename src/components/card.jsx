@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { itemAdded, reorderx } from "../store/cards";
+import { itemAdded } from "../store/cards";
 import { Draggable } from "@hello-pangea/dnd";
 import CardItem from "./cardItem";
 import CardHeader from "./cardHeader";

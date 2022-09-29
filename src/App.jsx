@@ -20,7 +20,7 @@ function App() {
           <SideBar />
           <div className="main-container">
             <SecondaryNavBar />
-            <CardContainer></CardContainer>
+            <CardContainer />
           </div>
         </main>
       </Provider>

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Card from "./card";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import { connect } from "react-redux";
-import { cardAdded, itemAdded, draggablesReordered } from "../store/cards";
+import { cardAdded, draggablesReordered } from "../store/cards";
 
 class CardContainer extends Component {
   constructor(props) {
@@ -85,7 +85,6 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   addCard: () => dispatch(cardAdded()),
-  addItem: (id) => dispatch(itemAdded(id)),
   draggablesReordered: (result) => dispatch(draggablesReordered(result)),
 });
 
