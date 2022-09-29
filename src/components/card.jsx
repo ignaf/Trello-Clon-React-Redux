@@ -1,13 +1,12 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { itemAdded } from "../store/cards";
+import { itemAdded, reorderx } from "../store/cards";
 import { Draggable } from "@hello-pangea/dnd";
 import CardItem from "./cardItem";
 import CardHeader from "./cardHeader";
 
 export default function Card(props) {
-  const { card, onReorder, onDelete, onDescChange, ...droppableProvided } =
-    props;
+  const { card, ...droppableProvided } = props;
 
   const dispatch = useDispatch();
 
@@ -28,8 +27,6 @@ export default function Card(props) {
                   innerRef={draggableProvided.innerRef}
                   item={item}
                   card={card}
-                  onDescChange={onDescChange}
-                  onDelete={onDelete}
                 />
               )}
             </Draggable>

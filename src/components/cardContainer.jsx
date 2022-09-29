@@ -3,7 +3,7 @@ import Card from "./card";
 import { v4 as uuid } from "uuid";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import { connect } from "react-redux";
-import { cardAdded, itemAdded } from "../store/cards";
+import { cardAdded, itemAdded, reorderx } from "../store/cards";
 
 const reorder = (list, startIndex, endIndex) => {
   const result = [...list];
@@ -92,7 +92,7 @@ class CardContainer extends Component {
     return (
       <div className="card-container" id="card-container">
         <div className="listas-wraper">
-          <DragDropContext onDragEnd={(result) => this.handleReorder(result)}>
+          <DragDropContext onDragEnd={(result) => this.props.reorderx(result)}>
             <Droppable
               droppableId="listas"
               direction="horizontal"
@@ -125,7 +125,6 @@ class CardContainer extends Component {
                               <Card
                                 key={card.id}
                                 card={card}
-                                onReorder={this.handleReorder}
                                 {...droppableProvided}
                               ></Card>
 
@@ -165,6 +164,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   addCard: () => dispatch(cardAdded()),
   addItem: (id) => dispatch(itemAdded(id)),
+  reorderx: (result) => dispatch(reorderx(result)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CardContainer);

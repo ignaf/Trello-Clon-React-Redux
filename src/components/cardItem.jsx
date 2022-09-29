@@ -4,7 +4,7 @@ import { itemDeleted, itemTitleChanged } from "../store/cards";
 import { EditText } from "react-edit-text";
 import Modal from "./modal";
 
-function CardItem({ provided, innerRef, onDescChange, item, card }) {
+function CardItem({ provided, innerRef, item, card }) {
   const [isOpen, setIsOpen] = useState(false);
   const dispatch = useDispatch();
 
